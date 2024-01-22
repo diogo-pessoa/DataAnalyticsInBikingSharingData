@@ -1,0 +1,80 @@
+%! Author = macbook
+%! Date = 17/01/2024
+
+% Preamble
+\documentclass[11pt, a4paper]{article}
+
+% Essential Packages
+\usepackage[utf8]{inputenc}  % Character encoding
+\usepackage{amsmath}        % Advanced math typesetting
+\usepackage{amsfonts}       % Math fonts
+\usepackage{amssymb}        % Math symbols
+\usepackage{graphicx}       % Allows including images
+\usepackage{subcaption}     % For subfigures
+\usepackage{booktabs}       % For professional looking tables
+\usepackage{multirow}       % For tables with multiple rows
+\usepackage{dcolumn}        % Align table columns on decimal point
+\usepackage{siunitx}        % SI units formatting
+\usepackage{hyperref}       % For hyperlinks in the document
+\usepackage{url}            % For URLs
+
+% For Data Visualization
+\usepackage{pgfplots}       % For creating plots
+\pgfplotsset{compat=1.17}   % Version might change based on your installation
+\usepgfplotslibrary{statistics} % For statistical plots
+
+% Bibliography Management
+\usepackage[backend=biber, style=authoryear, natbib=true]{biblatex} % For bibliography
+\addbibresource{references.bib} % Your bibliography file
+
+% Other Settings
+\usepackage{geometry}       % For setting margins
+\geometry{left=25mm, right=25mm, top=25mm, bottom=25mm}
+\usepackage{fancyhdr}       % For fancy headers and footers
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Your Name / Project Title}
+\lhead{Data Analytics Report}
+\rfoot{Page \thepage}
+
+% For Code Listings (if you include code snippets)
+\usepackage{listings}       % For code listing
+\usepackage{xcolor}         % For color definitions
+\lstset{
+    basicstyle=\ttfamily,
+    commentstyle=\color{gray},
+    keywordstyle=\color{blue},
+    stringstyle=\color{orange},
+    numberstyle=\tiny\color{gray},
+    numbers=left,
+    stepnumber=1,
+    numbersep=10pt,
+    backgroundcolor=\color{white},
+    frame=single,
+    captionpos=b,
+    breaklines=true,
+    showstringspaces=false,
+    tabsize=2,
+    language=Python
+}
+
+\title{Your Title Here}
+\author{Your Name Here}
+\date{\today}
+
+% Optional: To-Do Notes
+\usepackage{todonotes}
+
+\begin{document}
+
+    \maketitle
+    \tableofcontents
+    \newpage
+
+
+    \section{Section}
+    Dummy text
+
+    \subsection{Subsection}
+    Dummy text
+\end{document}
