@@ -1,21 +1,30 @@
-import zipfile
+"""
+Pulls files from Divvy Bike Share's S3 bucket and unzips them to a local storage
+"""
 
-import requests
+
 import os
+import zipfile
+import requests
 
 
 def get_url(years_to_download):
     """
-    This section assumes the file naming convention pattern based on visual review of https://divvy-tripdata.s3.amazonaws.com/index.html shared by Divvy.
+    This section assumes the file naming convention pattern based on visual
+    review of https://divvy-tripdata.s3.amazonaws.com/index.html shared by
+    Divvy.
 
      On the next few lines we'll build a list for files for the list of years.
         https://divvy-tripdata.s3.amazonaws.com/<year><month>-divvy-tripdata.zip
 
-     The endpoint doesn't require authentication, thence this is a simple GET request to download the data.
-     The code will add validation (Try, Catch) based on the response Code to avoid interruptions.
+     The endpoint doesn't require authentication, thence this is a simple GET
+     request to download the data.
+     The code will add validation (Try, Catch) based on the response Code to
+     avoid interruptions.
     """
-    list_zip_files_urls = [f"https://divvy-tripdata.s3.amazonaws.com/{y}{m:02d}-divvy-tripdata.zip" for y in
-                           years_to_download for m in range(1, 13)]
+    list_zip_files_urls = [
+        f"https://divvy-tripdata.s3.amazonaws.com/{y}{m:02d}-divvy-tripdata.zip"
+        for y in years_to_download for m in range(1, 13)]
     return list_zip_files_urls
 
 
@@ -36,14 +45,16 @@ def download_zip_files(zip_files_urls: list, local_dir_path: str):
             continue
         try:
             print(f'Requesting file: {file_name}')
-            r = requests.get(file_url)
+            r = requests.get(file_url, timeout=10)
             if not r.status_code == 200:
                 with open(file_path, 'wb') as f:
                     f.write(r.content)
             else:
-                print(f'Error downloading file status code: {file_name}, {r.status_code}')
+                print(f'Error downloading file status code: {file_name}, '
+                      f'{r.status_code}')
         except requests.exceptions.RequestException as e:
-            raise SystemExit(e)
+            raise RuntimeWarning(f"Error downloading file: {file_name}") \
+                from e
 
 
 def unzip_files(local_path_of_zip_files: str):
@@ -74,6 +85,7 @@ def unzip_files(local_path_of_zip_files: str):
             if os.path.exists(file_path):
                 os.remove(file_path)
                 print(f"Deleted: {filename}")
+    return None
 
 
 def create_local_dir(local_data_path: str) -> bool:
@@ -84,6 +96,7 @@ def create_local_dir(local_data_path: str) -> bool:
     if not os.path.exists(local_data_path):
         os.makedirs(local_data_path)
         return True
+    return False
 
 
 def get_files(local_dir: str, years_to_download: list):
@@ -101,4 +114,5 @@ def get_files(local_dir: str, years_to_download: list):
 
 
 def __dir__():
-    return [name for name, val in globals().items() if callable(val) and name[0] != "_"]
+    return [name for name, val in globals().items() if
+            callable(val) and name[0] != "_"]

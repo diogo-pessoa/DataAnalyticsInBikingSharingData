@@ -166,3 +166,6 @@ cython_debug/
 /data_collection/data/
 /data_collection/
 .idea/
+.idea/TechProject1.iml
+.DS_Store
+```
