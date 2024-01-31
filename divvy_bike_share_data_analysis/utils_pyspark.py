@@ -44,8 +44,7 @@ def load_schema(schema_path):
     return None
 
 
-def load_data(data_path: str) -> (
-        pyspark.sql.dataframe.DataFrame):
+def load_data(data_path: str) -> (pyspark.sql.dataframe.DataFrame):
     """
     Load data into spark session.
     :param data_path:
@@ -53,6 +52,5 @@ def load_data(data_path: str) -> (
     """
     local_spark_session = create_spark_session()
     schema = load_schema(os.path.join(data_path, 'divvy-tripdata-schema.yaml'))
-    df = local_spark_session.read.csv(data_path, header=True, schema=schema)
-    print(df.printSchema())
+    df = local_spark_session.read.csv(data_path, schema=schema)
     return df

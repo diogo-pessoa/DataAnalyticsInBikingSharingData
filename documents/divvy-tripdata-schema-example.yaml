@@ -1,0 +1,17 @@
+﻿data_set: divvy-tripdata
+version: 1.0.0
+description: Divvy trip data
+columns:
+  ride_id: string
+  rideable_type: string
+  started_at: datetime
+  ended_at: datetime
+  start_station_name: string
+  start_station_id: string
+  end_station_name: string
+  end_station_id: string
+  start_lat: float
+  start_lng: float
+  end_lat: float
+  end_lng: float
+  member_casual: string

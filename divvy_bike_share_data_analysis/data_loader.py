@@ -2,13 +2,17 @@
 Pulls files from Divvy Bike Share's S3 bucket and unzips them to a local storage
 """
 
-
+import csv
 import os
+import re
+import shutil
 import zipfile
+from tempfile import NamedTemporaryFile
+
 import requests
 
 
-def get_url(years_to_download):
+def _get_url(years_to_download):
     """
     This section assumes the file naming convention pattern based on visual
     review of https://divvy-tripdata.s3.amazonaws.com/index.html shared by
@@ -22,7 +26,7 @@ def get_url(years_to_download):
     return list_zip_files_urls
 
 
-def download_zip_files(zip_files_urls: list, local_dir_path: str):
+def _download_zip_files(zip_files_urls: list, local_dir_path: str):
     """
     downloads zip the files to the local path.
     :param local_dir_path:
@@ -51,7 +55,7 @@ def download_zip_files(zip_files_urls: list, local_dir_path: str):
                 from e
 
 
-def unzip_files(local_path_of_zip_files: str):
+def _unzip_files(local_path_of_zip_files: str):
     """
     Unzip the files to the local path.
     :param local_path_of_zip_files:
@@ -82,7 +86,7 @@ def unzip_files(local_path_of_zip_files: str):
     return None
 
 
-def create_local_dir(local_data_path: str) -> bool:
+def _create_local_dir(local_data_path: str) -> bool:
     """
     Create local directory for datafiles if it does not exist.
     :return: bool
@@ -93,18 +97,42 @@ def create_local_dir(local_data_path: str) -> bool:
     return False
 
 
-def get_files(local_dir: str, years_to_download: list):
+def load_dataset_to_local_fs(local_dir: str, years_to_download: list):
     """
+    Loads the dataset to local file system. This Function only groups the
+    functions call. To Pull the divvy .csv S3 bucket and unzips them to a local
+    storage.
     :param local_dir:
     :param years_to_download:
     :return:
     """
-    list_zip_files_urls = get_url(years_to_download)
+    list_zip_files_urls = _get_url(years_to_download)
     print("Downloading files...")
-    download_zip_files(list_zip_files_urls, local_dir)
-    create_local_dir(local_dir)
+    _download_zip_files(list_zip_files_urls, local_dir)
+    _create_local_dir(local_dir)
     print("Unzipping files...")
-    unzip_files(local_dir)
+    _unzip_files(local_dir)
+    _sanitize_csv_headers_inplace(local_dir)
+
+
+def _sanitize_csv_headers_inplace(path_to_csvs):
+    # TODO add docstring, Test and logging
+    # Create a temporary file
+    temp_file = NamedTemporaryFile(mode='w', delete=False, newline='',
+                                   encoding='utf-8')
+    for csv_file in [f for f in os.listdir(path_to_csvs) if f.endswith('.csv')]:
+        file_path = os.path.join(path_to_csvs, csv_file)
+        if os.path.exists(file_path):
+            # Open the file in read mode and read lines
+            with open(file_path, 'r') as file:
+                lines = file.readlines()
+
+            # Remove the double quotes from each line
+            lines = [line.replace('"', '') for line in lines]
+
+            # Open the file in write mode and write back the lines
+            with open(file_path, 'w') as file:
+                file.writelines(lines)
 
 
 def __dir__():

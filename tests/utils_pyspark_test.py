@@ -7,7 +7,7 @@ import pyspark
 import pytest
 from pyspark.sql import SparkSession
 
-from divvy_bike_share_data_analysis.data_to_pyspark import (
+from divvy_bike_share_data_analysis.utils_pyspark import (
     create_spark_session, load_schema, load_data)
 
 

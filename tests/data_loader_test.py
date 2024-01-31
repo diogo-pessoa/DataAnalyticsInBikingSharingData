@@ -1,11 +1,12 @@
 ﻿"""
 Mock Tests for http crawler pulling data from AWS S3 (Divvy Bike Share)
+TODO review csv tests, consider moving to separate file
 """
+import os
+import tempfile
+from unittest.mock import patch, MagicMock, mock_open
 
-from unittest.mock import patch, MagicMock
-
-from divvy_bike_share_data_analysis.data_loader import get_url, \
-    download_zip_files, unzip_files, create_local_dir, get_files
+import divvy_bike_share_data_analysis.data_loader as data_loader
 
 
 @patch('os.makedirs')
@@ -15,7 +16,7 @@ def test_create_local_dir_creates_directory_when_not_exists(mock_makedirs):
     :param mock_makedirs:
     :return:
     """
-    assert create_local_dir('test_dir')
+    assert data_loader._create_local_dir('test_dir')
     mock_makedirs.assert_called_once_with('test_dir')
 
 
@@ -28,7 +29,7 @@ def test_create_local_dir_does_not_create_directory_when_exists(mock_makedirs):
     :return:
     """
     with patch('os.path.exists', return_value=True):
-        assert not create_local_dir('test_dir')
+        assert not data_loader._create_local_dir('test_dir')
     mock_makedirs.assert_not_called()
 
 
@@ -42,7 +43,8 @@ def test_download_zip_files_downloads_file_when_not_exists(mock_get):
     mock_get.return_value.status_code = 200
     mock_get.return_value.content = b'test content'
     with patch('builtins.open', new_callable=MagicMock):
-        download_zip_files(['http://test.com/test.zip'], 'test_dir')
+        data_loader._download_zip_files(['http://test.com/test.zip'],
+                                        'test_dir')
 
 
 @patch('requests.get')
@@ -53,7 +55,8 @@ def test_download_zip_files_skips_download_when_file_exists(mock_get):
     :return:
     """
     with patch('os.path.exists', return_value=True):
-        download_zip_files(['http://test.com/test.zip'], 'test_dir')
+        data_loader._download_zip_files(['http://test.com/test.zip'],
+                                        'test_dir')
     mock_get.assert_not_called()
 
 
@@ -66,7 +69,7 @@ def test_unzip_files_extracts_zip_files(mock_zipfile):
     """
     mock_zipfile.return_value.__enter__.return_value.extractall = MagicMock()
     with patch('os.listdir', return_value=['test.zip']), patch('os.remove'):
-        unzip_files('test_dir')
+        data_loader._unzip_files('test_dir')
 
 
 def test_get_url_returns_correct_urls():
@@ -74,7 +77,7 @@ def test_get_url_returns_correct_urls():
     Assert get_url returns correct urls.
     :return:
     """
-    urls = get_url([2020])
+    urls = data_loader._get_url([2020])
     assert urls == [(f"https://divvy-tripdata.s3.amazonaws.com/2020"
                      f"{m:02d}-divvy-tripdata.zip") for m in range(1, 13)]
 
@@ -93,8 +96,53 @@ def test_get_files_calls_all_functions(mock_unzip_files, mock_create_local_dir,
     :param mock_get_url:
     :return:
     """
-    get_files('test_dir', [2020])
+    data_loader.load_dataset_to_local_fs('test_dir', [2020])
     mock_get_url.assert_called_once_with([2020])
     mock_download_zip_files.assert_called_once()
     mock_create_local_dir.assert_called_once_with('test_dir')
     mock_unzip_files.assert_called_once_with('test_dir')
+
+
+@patch('os.path.exists')
+@patch('os.listdir')
+@patch('builtins.open', new_callable=mock_open, read_data='"""header1","header2","header3"\n"row1","row2","row3"')
+def test_removes_quotes_from_csv_headers(self, mock_file, mock_listdir, mock_exists):
+    mock_listdir.return_value = ['test.csv']
+    mock_exists.return_value = True
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        data_loader._sanitize_csv_headers_inplace(temp_dir)
+
+    mock_file.assert_called_with(os.path.join(temp_dir, 'test.csv'), 'w')
+    mock_file().writelines.assert_called_once_with(['header1,header2,header3\n', 'row1,row2,row3'])
+
+@patch('os.path.exists')
+@patch('os.listdir')
+def test_skips_non_csv_files(self, mock_listdir, mock_exists):
+    mock_listdir.return_value = ['test.txt']
+    mock_exists.return_value = True
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        data_loader._sanitize_csv_headers_inplace(temp_dir)
+
+    mock_exists.assert_not_called()
+
+@patch('os.path.exists')
+@patch('os.listdir')
+def test_skips_non_existent_files(self, mock_listdir, mock_exists):
+    mock_listdir.return_value = ['test.csv']
+    mock_exists.return_value = False
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        data_loader._sanitize_csv_headers_inplace(temp_dir)
+
+    mock_exists.assert_called_once_with(os.path.join(temp_dir, 'test.csv'))
+
+@patch('os.listdir')
+def test_handles_empty_directory(self, mock_listdir):
+    mock_listdir.return_value = []
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        data_loader._sanitize_csv_headers_inplace(temp_dir)
+
+    mock_listdir.assert_called_once_with(temp_dir)
