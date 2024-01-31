@@ -40,6 +40,7 @@ def load_schema(schema_path):
                                                         dtype]) for name, dtype
                       in columns.items()]
             return StructType(fields)
+    # TODO raise exception for missing schema file
     return None
 
 
