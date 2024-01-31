@@ -13,14 +13,8 @@ def get_url(years_to_download):
     This section assumes the file naming convention pattern based on visual
     review of https://divvy-tripdata.s3.amazonaws.com/index.html shared by
     Divvy.
-
-     On the next few lines we'll build a list for files for the list of years.
+    Path:
         https://divvy-tripdata.s3.amazonaws.com/<year><month>-divvy-tripdata.zip
-
-     The endpoint doesn't require authentication, thence this is a simple GET
-     request to download the data.
-     The code will add validation (Try, Catch) based on the response Code to
-     avoid interruptions.
     """
     list_zip_files_urls = [
         f"https://divvy-tripdata.s3.amazonaws.com/{y}{m:02d}-divvy-tripdata.zip"
