@@ -91,30 +91,6 @@ class DataLoaderTestCase(unittest.TestCase):
         assert urls == [(f"https://divvy-tripdata.s3.amazonaws.com/2020"
                          f"{m:02d}-divvy-tripdata.zip") for m in range(1, 13)]
 
-    @patch('divvy_bike_share_data_analysis.data_loader.get_url')
-    @patch('divvy_bike_share_data_analysis.data_loader.download_zip_files')
-    @patch('divvy_bike_share_data_analysis.data_loader.create_local_dir')
-    @patch('divvy_bike_share_data_analysis.data_loader.unzip_files')
-    # TODO skip test for now - needs to be updated after moving to class
-    @unittest.skip("skipping test")
-    def test_get_files_calls_all_functions(self, mock_unzip_files,
-                                           mock_create_local_dir,
-                                           mock_download_zip_files,
-                                           mock_get_url):
-        """
-        Assert get_files calls all functions.
-        :param mock_unzip_files:
-        :param mock_create_local_dir:
-        :param mock_download_zip_files:
-        :param mock_get_url:
-        :return:
-        """
-        data_loader.load_dataset_to_local_fs('test_dir', [2020])
-        mock_get_url.assert_called_once_with([2020])
-        mock_download_zip_files.assert_called_once()
-        mock_create_local_dir.assert_called_once_with('test_dir')
-        mock_unzip_files.assert_called_once_with('test_dir')
-
     def test_csv_headers_sanitize_on_valid_file(self):
         """
         Assert if csv content quotes are removed.

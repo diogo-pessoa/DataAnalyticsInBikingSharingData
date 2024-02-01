@@ -32,16 +32,21 @@ def load_schema(schema_path):
                                  "integer": IntegerType(), "float": FloatType(),
                                  "datetime": TimestampType()}
     if schema_path and os.path.isfile(schema_path):
-        with open(schema_path, 'r', encoding='utf8') as stream:
-            schema_yaml = yaml.safe_load(stream)
-            columns = schema_yaml['columns']
-            fields = [pyspark.sql.types.StructField(name,
-                                                    struct_field_type_mapping[
-                                                        dtype]) for name, dtype
-                      in columns.items()]
-            return StructType(fields)
-    # TODO raise exception for missing schema file
-    return None
+        try:
+            with open(schema_path, 'r', encoding='utf8') as stream:
+                schema_yaml = yaml.safe_load(stream)
+                columns = schema_yaml['columns']
+                fields = [pyspark.sql.types.StructField(name,
+                                                        struct_field_type_mapping[
+                                                            dtype]) for
+                          name, dtype in columns.items()]
+                return StructType(fields)
+        except yaml.YAMLError as yaml_error:
+            raise yaml.YAMLError(
+                f"Schema file {schema_path} does not exist.") from yaml_error
+    else:
+        raise FileNotFoundError(
+            f"Schema file {schema_path} does not exist.")
 
 
 def load_data(data_path: str) -> (pyspark.sql.dataframe.DataFrame):
