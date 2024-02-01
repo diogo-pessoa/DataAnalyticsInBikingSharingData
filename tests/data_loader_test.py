@@ -5,7 +5,7 @@ TODO review csv tests, consider moving to separate file
 import os
 import tempfile
 import unittest
-from unittest.mock import patch, MagicMock, mock_open
+from unittest.mock import patch, MagicMock
 
 from divvy_bike_share_data_analysis import data_loader
 
@@ -14,6 +14,7 @@ class DataLoaderTestCase(unittest.TestCase):
     """
     Tests for data_loader.py
     """
+
     @patch('os.makedirs')
     def test_create_local_dir_creates_directory_when_not_exists(self,
                                                                 mock_makedirs):
@@ -114,80 +115,33 @@ class DataLoaderTestCase(unittest.TestCase):
         mock_create_local_dir.assert_called_once_with('test_dir')
         mock_unzip_files.assert_called_once_with('test_dir')
 
-    @patch('os.path.exists')
-    @patch('os.listdir')
-    @patch('builtins.open', new_callable=mock_open,
-           read_data='"""header1","header2","header3"\n"row1","row2","row3"')
-    def test_removes_quotes_from_csv_headers(self, mock_file, mock_listdir,
-                                             mock_exists):
+    def test_csv_headers_sanitize_on_valid_file(self):
         """
-        Assert _sanitize_csv_headers_inplace removes quotes from csv headers.
-        :param mock_file:
-        :param mock_listdir:
-        :param mock_exists:
-        :return:
+        Assert if csv content quotes are removed.
         """
-        mock_listdir.return_value = ['test.csv']
-        mock_exists.return_value = True
-
-        with tempfile.TemporaryDirectory() as temp_dir:
+        with tempfile.NamedTemporaryFile(suffix=".csv", delete=False) as temp:
+            temp.write(b'"header1","header2"\n"val1","val2"')
+            temp.close()
             # pylint: disable=protected-access
-            data_loader._sanitize_csv_headers_inplace(temp_dir)
+            data_loader._sanitize_csv_headers_inplace(tempfile.gettempdir())
+            with open(temp.name, 'r', encoding='utf8') as file:
+                lines = file.readlines()
+            assert lines[0] == 'header1,header2\n'
+            assert lines[1] == 'val1,val2'
+            os.remove(temp.name)
 
-        mock_file.assert_called_with(os.path.join(temp_dir, 'test.csv'), 'w')
-        mock_file().writelines.assert_called_once_with(
-            ['header1,header2,header3\n', 'row1,row2,row3'])
-
-    @patch('os.path.exists')
-    @patch('os.listdir')
-    def test_skips_non_csv_files(self, mock_listdir, mock_exists):
+    def test_csv_headers_sanitize_on_empty_file(self):
         """
-        Assert _sanitize_csv_headers_inplace skips non-csv files.
-        :param mock_listdir:
-        :param mock_exists:
-        :return:
+        Assert if csv content quotes are removed.
         """
-        mock_listdir.return_value = ['test.txt']
-        mock_exists.return_value = True
-
-        with tempfile.TemporaryDirectory() as temp_dir:
+        with tempfile.NamedTemporaryFile(suffix=".csv", delete=False) as temp:
+            temp.close()
             # pylint: disable=protected-access
-            data_loader._sanitize_csv_headers_inplace(temp_dir)
-
-        mock_exists.assert_not_called()
-
-    @patch('os.path.exists')
-    @patch('os.listdir')
-    def test_skips_non_existent_files(self, mock_listdir, mock_exists):
-        """
-        Assert _sanitize_csv_headers_inplace skips non-existent files.
-        :param mock_listdir:
-        :param mock_exists:
-        :return:
-        """
-        mock_listdir.return_value = ['test.csv']
-        mock_exists.return_value = False
-
-        with tempfile.TemporaryDirectory() as temp_dir:
-            # pylint: disable=protected-access
-            data_loader._sanitize_csv_headers_inplace(temp_dir)
-
-        mock_exists.assert_called_once_with(os.path.join(temp_dir, 'test.csv'))
-
-    @patch('os.listdir')
-    def test_handles_empty_directory(self, mock_listdir):
-        """
-        Assert _sanitize_csv_headers_inplace handles empty directory.
-        :param mock_listdir:
-        :return:
-        """
-        mock_listdir.return_value = []
-
-        with tempfile.TemporaryDirectory() as temp_dir:
-            # pylint: disable=protected-access
-            data_loader._sanitize_csv_headers_inplace(temp_dir)
-
-        mock_listdir.assert_called_once_with(temp_dir)
+            data_loader._sanitize_csv_headers_inplace(tempfile.gettempdir())
+            with open(temp.name, 'r', encoding='utf8') as file:
+                lines = file.readlines()
+            assert lines == []
+            os.remove(temp.name)
 
 
 if __name__ == '__main__':
