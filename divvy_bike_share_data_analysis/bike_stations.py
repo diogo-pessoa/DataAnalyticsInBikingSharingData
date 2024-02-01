@@ -30,15 +30,14 @@ def get_unique_bike_stations_ids(trip_data: DataFrame) -> DataFrame:
 
 def categorize_time_of_day(hour):
     """
-    TODO: Add docstring, tests and type hints.
+    return label for hour of day
     :param hour:
-    :return:
+    :return: string
     """
     if 5 <= hour < 12:
         return 'Morning'
-    elif 12 <= hour < 17:
+    if 12 <= hour < 17:
         return 'Afternoon'
-    elif 17 <= hour < 21:
+    if 17 <= hour < 21:
         return 'Evening'
-    else:
-        return 'Night'
+    return 'Night'

@@ -14,6 +14,9 @@ from divvy_bike_share_data_analysis.utils_pyspark import (create_spark_session,
 
 
 class UtilsPySparkTestCase(unittest.TestCase):
+    """
+    Mock tests for data_to_pyspark.py
+    """
 
     def test_create_spark_session_returns_spark_session(self):
         """

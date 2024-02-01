@@ -2,12 +2,8 @@
 Pulls files from Divvy Bike Share's S3 bucket and unzips them to a local storage
 """
 
-import csv
 import os
-import re
-import shutil
 import zipfile
-from tempfile import NamedTemporaryFile
 
 import requests
 
@@ -116,22 +112,23 @@ def load_dataset_to_local_fs(local_dir: str, years_to_download: list):
 
 
 def _sanitize_csv_headers_inplace(path_to_csvs):
-    # TODO add docstring, Test and logging
-    # Create a temporary file
-    temp_file = NamedTemporaryFile(mode='w', delete=False, newline='',
-                                   encoding='utf-8')
+    """
+    Removes double quotes from csv headers inplace.
+    :param path_to_csvs:
+    :return:
+    """
     for csv_file in [f for f in os.listdir(path_to_csvs) if f.endswith('.csv')]:
         file_path = os.path.join(path_to_csvs, csv_file)
         if os.path.exists(file_path):
             # Open the file in read mode and read lines
-            with open(file_path, 'r') as file:
+            with open(file_path, 'r', encoding='utf8') as file:
                 lines = file.readlines()
 
             # Remove the double quotes from each line
             lines = [line.replace('"', '') for line in lines]
 
             # Open the file in write mode and write back the lines
-            with open(file_path, 'w') as file:
+            with open(file_path, 'w', encoding='utf8') as file:
                 file.writelines(lines)
 
 
