@@ -23,8 +23,8 @@ When the model is ready, the project will be deployed to `<pending decision, ove
 
 ### Tools and technologies
 
-* Python 3.8.5
-* PySpark 3.0.1
+* Python 3.9.3
+* PySpark
 * Jupyter Notebook
 * Pandas
 * seaborn
