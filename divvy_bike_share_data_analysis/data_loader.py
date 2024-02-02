@@ -40,14 +40,18 @@ def _download_zip_files(zip_files_urls: list, local_dir_path: str):
         try:
             print(f'Requesting file: {file_name}')
             r = requests.get(file_url, timeout=10)
-            if not r.status_code == 200:
+            if r.status_code == 200:
                 with open(file_path, 'wb') as f:
                     f.write(r.content)
             else:
                 print(f'Error downloading file status code: {file_name}, '
                       f'{r.status_code}')
+                print(RuntimeWarning(f"Error downloading file:{file_name}\n"
+                                     f"status code: {r.status_code} \n" f" "
+                                     f"reason: {r.reason}"))
+
         except requests.exceptions.RequestException as e:
-            raise RuntimeWarning(f"Error downloading file: {file_name}") \
+            raise RuntimeWarning(f"Error downloading file: {file_name}, reason: {r.reason}") \
                 from e
 
 
@@ -84,14 +88,16 @@ def _unzip_files(local_path_of_zip_files: str):
 
 def _create_local_dir(local_data_path: str) -> bool:
     """
-    Create local directory for datafiles if it does not exist.
+    Create local directory for datafiles if it does not exist, one level
+    higher than the current working directory.
     :return: bool
     """
-    if not os.path.exists(local_data_path):
-        os.makedirs(local_data_path)
+    print(os.getcwd())
+    data_path = os.path.join(os.getcwd(), local_data_path)
+    if not os.path.exists(data_path):
+        os.makedirs(data_path)
         return True
     return False
-
 
 def load_dataset_to_local_fs(local_dir: str, years_to_download: list):
     """
@@ -102,10 +108,10 @@ def load_dataset_to_local_fs(local_dir: str, years_to_download: list):
     :param years_to_download:
     :return:
     """
+    _create_local_dir(local_dir)
     list_zip_files_urls = _get_url(years_to_download)
     print("Downloading files...")
     _download_zip_files(list_zip_files_urls, local_dir)
-    _create_local_dir(local_dir)
     print("Unzipping files...")
     _unzip_files(local_dir)
     _sanitize_csv_headers_inplace(local_dir)
