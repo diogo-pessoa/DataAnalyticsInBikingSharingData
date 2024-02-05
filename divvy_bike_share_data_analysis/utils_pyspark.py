@@ -67,10 +67,13 @@ pyspark.sql.dataframe.DataFrame):
     :param data_path:
     :param spark_session:
     """
-    local_spark_session = SparkSession.builder.appName(
-        'BigQuery Integration').config('spark.jars.packages',
-                                       'com.google.cloud.spark:spark-bigquery-with-dependencies_2.12:0.21.0').getOrCreate()
-    local_spark_session.conf.set("materializationDataset","<dataset>")
+    local_spark_session = (SparkSession.builder.appName(
+        'BigQuery Integration').config(
+        'spark.jars.packages',
+       'com.google.cloud.spark:spark-bigquery-with-dependencies_2.12:0.21.0')
+                           .getOrCreate())
+    # local_spark_session.conf.set("materializationDataset","<dataset>") #
+    # Review if bug in spark big query connector is affecting this method.
     schema = load_schema(os.path.join(data_path, 'divvy-tripdata-schema.yaml'))
     df = local_spark_session.read.csv(data_path, schema=schema)
     return df
