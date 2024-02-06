@@ -1,11 +1,10 @@
-﻿import os
-
-from google.cloud import bigquery
-from pyspark.sql import SparkSession
-from pyspark.sql.dataframe import DataFrame
+﻿"""
+Helper Function to create and manage dataset in BigQuery
+"""
+import os
 
 from dotenv import load_dotenv
-import os
+from pyspark.sql import SparkSession
 
 # Load environment variables from a .env file
 load_dotenv()
@@ -20,10 +19,14 @@ def _start_spark_big_query_session():
     return spark
 
 
-def create_dataset(dataset: DataFrame):
+def create_dataset():
+    """
+    Create a dataset in BigQuery
+    :param dataset:
+    :return:
+    """
     table = os.environ.get('TABLE_NAME')
     bigquery_dataset_id = os.environ.get('BG_DATASET_ID')
-    client = bigquery.Client()
     spark_session = _start_spark_big_query_session()
     spark_session.write.format('bigquery').option(table,
                                                   bigquery_dataset_id).save()

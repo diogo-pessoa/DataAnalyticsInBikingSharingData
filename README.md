@@ -16,8 +16,45 @@ back to feature engineering to improve performance.
 When the model is ready, the project will be deployed to `<pending decision, over databricks or Collab>`. When that's
 done we'll run the model against the full dataset.
 
-[Collab enterpise notebook](https://console.cloud.google.com/vertex-ai/colab/notebooks?authuser=1&project=x-oxygen-413115&activeNb=projects%2Fx-oxygen-413115%2Flocations%2Feurope-west1%2Frepositories%2F23c85631-aaf1-4988-8d7f-30b1581f7b5e)
 
+### Notebooks description
+
+This project have multiple notebooks, each with a specific scope. The idea is to simplify the analysis and make it easier to follow.
+All notebooks cross-reference each other, accordingly to the flow of the analysis. Using magic runs, such as: `%run 'notebooks/data_collection.ipynb'`
+
+#### Notebooks/
+
+  * [supervisor_bikeshare](notebooks/supervisor_bikeshare.ipynb) - One to rule them all!
+    * Calls notebooks in order to run the full analysis. Handy as I don't need to re-run previous steps, when I need to re-run subsets of the analysis.
+  * [data_collection.ipynb](notebooks/data_collection.ipynb) - Being mindful of resource limitations, the default call only pulls the 2023 data.
+    * Loads helper functions from helper module [divvy_bike_share_data_analysis](divvy_bike_share_data_analysis) to download trip rercords zip files and extract them to a local directory and loading into a PySpark DataFrame.
+    * [feature_engineering.ipynb](notebooks/feature_engineering.ipynb)
+      * Depends on `%run 'notebooks/data_collection.ipynb'` 
+      * calls data_collection.ipynb, then split the data further `DataFrame.sample(0.1)`. Again, being mindful of resource limitations. A full year of trip records can take a while to process.
+      * The notebook focus on feature engineering, such as creating new columns, and transforming the data to be used in the model. Removing Nulls and Duplicate rows.
+      * An important portion of this notebook is the indexing of features `sampled_df_with_added_features_indexed`. I decided for that since multiple notebooks were repeating this step.
+    * [data_exploration](notebooks/data_exploration.ipynb)
+      * Depends on `%run 'notebooks/feature_engineering.ipynb'`
+      * The notebook focus on the initial data exploration. Therefore, it converts the PySpark DataFrame to a Pandas DataFrame.
+        * ```python
+          sampled_df_with_added_features_indexed.toPandas()
+          ``
+      * The notebook is intended to be used to understand the data, visualize findings and patterns.
+    * [regression_model.ipynb](notebooks/regression_model.ipynb)
+      * Depends on `%run 'notebooks/feature_engineering.ipynb'` 
+      * The notebook focus on training a regression model using PySpark. The model is trained using the `sampled_df_with_added_features_indexed` DataFrame.
+      * I've also split the training in to contexts, working days and non-working days. I've decided for the split, due to performance issues. The model was taking too long to train(local laptop).
+      * The model is trained using the `sampled_df_with_added_features_indexed` DataFrame.
+    * [PCA_analysis.ipynb](notebooks/pca_analysis.ipynb)
+      * Depends on `%run 'notebooks/feature_engineering.ipynb'`
+      * The notebook reviews the viability of reducing the dimensionality of the dataset.
+      * Review Variance, look for outliers, and possible clusters.
+    * [sillhouette_index_scores.ipynb](notebooks/sillhouette_score.ipynb)
+      * Depends on `%run 'notebooks/feature_engineering.ipynb'`
+      * The notebook focus on the Silhouette analysis of the dataset. The goal is to find the optimal number of clusters for the dataset.
+    * [clustering_analysis.ipynb](notebooks/clustering_analysis.ipynb)
+      * Depends on `%run 'notebooks/feature_engineering.ipynb'`
+      * `<Pending>`
 
 ### Questions
 
