@@ -20,7 +20,7 @@ class BikeStationsTestCase(unittest.TestCase):
 
     """
 
-
+    #pylint: disable=fixme
     # TODO refactoring of unique bike stations ids in progress
     @unittest.skip("Refactoring of unique bike stations ids in progress")
     def test_get_unique_bike_stations_ids_handles_conflicting_stations(self):

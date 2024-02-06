@@ -40,7 +40,7 @@ def _download_zip_files(zip_files_urls: list, local_dir_path: str):
         try:
             print(f'Requesting file: {file_name}')
             r = requests.get(file_url, timeout=10)
-            if not r.status_code == 200:
+            if r.status_code == 200:
                 with open(file_path, 'wb') as f:
                     f.write(r.content)
             else:
