@@ -26,20 +26,33 @@ done we'll run the model against the full dataset.
 * Which periods of the day are these stations most visited?
 * Which stations should be unloaded while restocking high-demand stations during peak hours?
 
-### Tools and technologies
 
-* Python 3.8.5
-* PySpark 3.0.1
-* Jupyter Notebook
-* Pandas
-* seaborn
-* synapse
 
-dependencies listed here: [requirements.txt](requirements.txt)
+#### Using the Notebook
+  
+The notebook is intended to be used in a Jupyter environment. The notebook is divided into sections. 
+Having said that, the Notebook uses helper functions from the module [divvy_bik_share_data_analysis](divvy_bik_share_data_analysis.py) to simplify the notebook content.
 
-### Dataset Description
+Here are a few important points:
+* Using `dotenv` to load certain environment variables, without explicity declaring sensitive information in the notebook.
+* Python version is 3.9
+  * I loaded a virtual environment and had the dependencies listed here: [requirements.txt](requirements.txt)
+    * Install venv: `python -m venv venv` (make sure to run this using python3.9
+    * Activate the virtual environment: `source venv/bin/activate`
+    * Install dependencies:  `pip install -r requirements.txt`
+  * Create a `.env` file:
+    * for now the only required entry is the `IMAGE_PATH`. This is the path to save plot figures and load then to our LaTeX report.
+      * The `.env` file should be in the root of the project.
+        * Example:
+          ```dotenv
+             IMAGES_PATH='../Reports/TechReport/images/'
+             DATA_COLLECTION_DIR='../DataCollection/'
+          ```
+  * PySpark preset Schema for Divvy Trip Data:
+    * The schema example is defined in the [divvy-tripdata-schema.yaml](documents/divvy-tripdata-schema-example.yaml).
+      * Copy this file to the DATA_COLLECTION_DIR and rename it to `divvy-tripdata-schema.yaml`
+      * The function [`load_divvy_trip_data`](divvy_bike_share_data_analysis/utils_pyspark.py#L51) will use this file to create a PySpark StructType object.
 
-When loading the dataset the [divvy-tripdata-schema.yaml](documents/divvy-tripdata-schema-example.yaml)
 
 #### Content:
 
@@ -90,5 +103,8 @@ Functions in the module:
 * [PySpark SQL User-guides](https://spark.apache.org/docs/latest/sql-programming-guide.html)
 * [PySpark MLlib User-guides](https://spark.apache.org/docs/latest/ml-guide.html)
 * [PySpark Functions User-guides](https://spark.apache.org/docs/3.1.2/api/python/user_guide/arrow_pandas.html#pandas-udfs-a-k-a-vectorized-udfs)
-* [Traffic prediction in a bike-sharing system](https://dl.acm.org/doi/abs/10.1145/2820783.2820837)
-* [Bicycle-Sharing System Analysis and Trip Prediction](https://ieeexplore.ieee.org/abstract/document/7517792)
+* [PySpark Pipeline](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.Pipeline.html)
+* Referenced articles:
+  * [Traffic prediction in a bike-sharing system](https://dl.acm.org/doi/abs/10.1145/2820783.2820837)
+  * [Bicycle-Sharing System Analysis and Trip Prediction](https://ieeexplore.ieee.org/abstract/document/7517792)
+  * [Bike-sharing systems: Accessibility and availability](https://www.sciencedirect.com/science/article/pii/S0965856419301063)
