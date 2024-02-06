@@ -40,7 +40,7 @@ def _download_zip_files(zip_files_urls: list, local_dir_path: str):
         try:
             print(f'Requesting file: {file_name}')
             r = requests.get(file_url, timeout=10)
-            if not r.status_code == 200:
+            if r.status_code == 200:
                 with open(file_path, 'wb') as f:
                     f.write(r.content)
             else:
@@ -102,10 +102,10 @@ def load_dataset_to_local_fs(local_dir: str, years_to_download: list):
     :param years_to_download:
     :return:
     """
+    _create_local_dir(local_dir)
     list_zip_files_urls = _get_url(years_to_download)
     print("Downloading files...")
     _download_zip_files(list_zip_files_urls, local_dir)
-    _create_local_dir(local_dir)
     print("Unzipping files...")
     _unzip_files(local_dir)
     _sanitize_csv_headers_inplace(local_dir)
