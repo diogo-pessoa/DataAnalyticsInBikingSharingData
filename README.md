@@ -16,6 +16,9 @@ back to feature engineering to improve performance.
 When the model is ready, the project will be deployed to `<pending decision, over databricks or Collab>`. When that's
 done we'll run the model against the full dataset.
 
+[Collab enterpise notebook](https://console.cloud.google.com/vertex-ai/colab/notebooks?authuser=1&project=x-oxygen-413115&activeNb=projects%2Fx-oxygen-413115%2Flocations%2Feurope-west1%2Frepositories%2F23c85631-aaf1-4988-8d7f-30b1581f7b5e)
+
+
 ### Questions
 
 * Which stations are the most used for collections?
@@ -31,7 +34,7 @@ done we'll run the model against the full dataset.
 #### Using the Notebook
   
 The notebook is intended to be used in a Jupyter environment. The notebook is divided into sections. 
-Having said that, the Notebook uses helper functions from the module [divvy_bik_share_data_analysis](divvy_bik_share_data_analysis.py) to simplify the notebook content.
+Having said that, the Notebook uses helper functions from the module [divvy_bik_share_data_analysis](divvy_bike_share_data_analysis) to simplify the notebook content.
 
 Here are a few important points:
 * Using `dotenv` to load certain environment variables, without explicity declaring sensitive information in the notebook.
@@ -46,15 +49,26 @@ Here are a few important points:
         * Example:
           ```dotenv
              IMAGES_PATH='../Reports/TechReport/images/'
-             DATA_COLLECTION_DIR='../DataCollection/'
+             DATA_COLLECTION_DIR='../data_collection/'
           ```
   * PySpark preset Schema for Divvy Trip Data:
     * The schema example is defined in the [divvy-tripdata-schema.yaml](documents/divvy-tripdata-schema-example.yaml).
       * Copy this file to the DATA_COLLECTION_DIR and rename it to `divvy-tripdata-schema.yaml`
       * The function [`load_divvy_trip_data`](divvy_bike_share_data_analysis/utils_pyspark.py#L51) will use this file to create a PySpark StructType object.
 
+##### Pylint & Unit Tests
 
-#### Content:
+* Pylint
+  * The project uses pylint to check the code for errors and style issues.
+  * To run pylint, use the following command:
+    * `pylint $(git ls-files '*.py') `
+* Unit Tests
+  * The project uses the `unittest` module to run tests.
+  * To run the tests, use the following command:
+    * `python -m unittest discover -s tests/ -p '*_test.py'`
+
+
+#### DataSet Schema
 
 ```yaml
 data_set: divvy-tripdata
@@ -104,6 +118,8 @@ Functions in the module:
 * [PySpark MLlib User-guides](https://spark.apache.org/docs/latest/ml-guide.html)
 * [PySpark Functions User-guides](https://spark.apache.org/docs/3.1.2/api/python/user_guide/arrow_pandas.html#pandas-udfs-a-k-a-vectorized-udfs)
 * [PySpark Pipeline](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.Pipeline.html)
+* [Spark ML Lib Pipeline main guide](https://spark.apache.org/docs/latest/ml-pipeline.html)
+
 * Referenced articles:
   * [Traffic prediction in a bike-sharing system](https://dl.acm.org/doi/abs/10.1145/2820783.2820837)
   * [Bicycle-Sharing System Analysis and Trip Prediction](https://ieeexplore.ieee.org/abstract/document/7517792)
