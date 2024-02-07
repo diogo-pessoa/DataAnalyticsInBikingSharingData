@@ -22,13 +22,7 @@
         The feature engineering phase of our analysis is pivotal for simplifying the dataset, enabling more nuanced exploration and enhancing the predictive model's performance.
         By introducing categorical fields for the time of day and day of the week, we aim to dissect the data further, identifying usage patterns across different times and categorizing days into workdays and non-working days.
         This categorization simplifies the analysis and lays the groundwork for more in-depth insights into trip frequencies and preferences, crucial for optimizing bike-sharing services.\newline
-        \textbf{Creating new Features:}\newline
-        \begin{itemize}
-            \item \textbf{Time of Day}:\newline We categorize each trip into one of four periods: Morning, Afternoon, Evening, and Night. This classification helps in analysing station popularity and bike usage trends at different times.
-            \item\textbf{Day of Week}:\newline Trips are classified into Workday or Non-Working Day categories, facilitating an understanding of how commuting patterns vary between weekdays and weekends.
-        \end{itemize}
 
-    \textbf{time of Day and Day of Week Categorization}\newline
     \begin{itemize}
         \item \textbf{Data Cleaning and Transformation}:\newline This step is essential for maintaining the integrity and accuracy of our findings. In preparation for sophisticated analyses, we rigorously clean the dataset by removing duplicates and null values.
         \item \textbf{Rideable Type Categorization}:\newline We categorize `rideable\_type` into three groups: classic bike (0), docked bike (1), and electric bike (2).
@@ -36,7 +30,6 @@
                         This decision is based on its limited relevance to the study's objectives, streamlining the dataset for more targeted analysis.
         \item \textbf{Leveraging PySpark and User-Defined Functions}:\newline To transform the \textbf{started\_at} timestamps into our categorical features, we leverage PySpark functions alongside user-defined functions. This approach allows us to efficiently generate new categorical columns from existing data.
         \item \textbf{StringIndexer Conversion}:\newline Following the creation of categorical features, we employ PySpark's StringIndexer to convert these categories into numeric values. This conversion is crucial for incorporating these features into our predictive models, ensuring that the data is in a format that can be easily processed and analysed.
-
       \end{itemize}
 
     \subsection{Exploratory Data Analysis (EDA)}\label{subsec:analytical-techniques}
@@ -77,6 +70,3 @@
 %        \newline This could include accuracy, precision, recall, and F1 score for classification models, or mean absolute error (MAE), mean squared error (MSE), and R-squared for regression models.
 %    \end{itemize}
 
-    \subsection{Clustering Analysis}\label{subsec:clustering-analysis}
-
-    \subsection{Classification Analysis}\label{subsec:classification-analysis}

@@ -1,0 +1,31 @@
+After concluding the exploration and refinement of the data, we proceed with the construction of the predictive models to search for patterns within the bike-sharing dataset.
+This section delves into two fundamental modeling methodologies, namely clustering analysis and regression analysis.
+Each model has a different purpose.
+Clustering helps find patterns in the data, and regression helps predict what will happen in the future.
+By evaluating both models, our objective is to identify the most efficient methods for anticipating bike demand across diverse stations and times.
+
+\subsection{Clustering Analysis}\label{subsec:clustering-analysis}
+
+
+The first approach employs k-means clustering, a method chosen for its efficacy in identifying natural groupings within the dataset based on similarities across several dimensions.
+The process involves:
+
+\begin{itemize}
+    \item \textbf{Silhouette Score Evaluation}: To determine the optimal number of clusters (k), we utilize the silhouette score, a measure of how similar an object is to its cluster compared to other clusters.
+    A higher silhouette score indicates a model with well-separated clusters.
+    \item \textbf{PCA Visualization}: Post-clustering, we apply Principal Component Analysis (PCA) to reduce the dataset's dimensionality for easier visualization.
+    While PCA simplifies the data representation, it can sometimes obscure the original features' interpretability.
+    Despite this, insights gained from PCA visualizations are invaluable for understanding the distribution and separation of clusters.
+\end{itemize}
+
+\subsection{Classification Analysis}\label{subsec:classification-analysis}
+    The second predictive model focuses on regression analysis, specifically employing a multi-classifier approach to predict bike demand.
+    This model's objectives include:
+\begin{itemize}
+    \item \textbf{Classification by Bike type Demand}: The model analysing historical data.
+    Then, predicts the demand for bikes based on type at different stations and times, classifying stations according to expected usage levels considering if these are Workday.
+\end{itemize}
+
+\subsection{Model Performance Metrics}\label{subsec:performance-review}
+    The effectiveness of the regression model is assessed through a variety of performance metrics, including the confusion matrix, precision, and recall.
+    These metrics provide a nuanced understanding of the model's accuracy and its ability to generalize across unseen data.
