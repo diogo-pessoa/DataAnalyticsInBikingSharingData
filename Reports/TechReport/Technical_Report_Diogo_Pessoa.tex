@@ -46,7 +46,7 @@
     \section*{Problem Description}
     \label{sec:ProblemDescription}
     Bike ride-sharing apps confront the challenge of optimising bike availability across their stations, a dilemma that intensifies near tourist attractions and along commuter routes.
-    Chiariotti et al.(2018)\cite{Sensors} underscore the significant imbalance within the system,
+    Chiariotti et al.(2018)\cite{s18020512} underscore the significant imbalance within the system,
     particularly the rapid depletion of bicycles at residential stations in the morning and congestion at commercial area stations.
 
     This report systematically examines bike share trip records from the publicly sourced Divvy bike share system~\cite{DataSource}.
@@ -56,16 +56,15 @@
     Are there clear trends in user destination preferences, and when do stations experience peak activity?
     This investigation also identifies periods requiring urgent bike redistribution to meet high demand and defines `peak hours` based on empirical data analysis.
 
-    \begin{figure}[htbp]
-        \centering
-        \includegraphics[width=0.8\textwidth]{images/count_most_popular_start_stations}
-        \caption{Annual Data Trend}
-        \label{fig:graph1}
-    \end{figure}
-
-
     \section*{Dataset description}
     \label{sec:dataset}
+
+    This dataset provides anonymised historic trip data from the Divvy bike-sharing service, detailing user travel patterns across various stations and times.
+    It captures the dynamics of bike usage, offering insights into the frequency and distribution of trips.
+    Our analysis primarily focuses on the start and end stations' IDs to identify which stations require re-stocking and to infer the most popular destinations.
+    Additionally, correlating trip start and end times with station usage is essential for a comprehensive understanding.\newline
+
+    The dataset includes the following key features:\newline
 
     \subsection{Dataset Features}\label{subsec:dataset-features}
     \begin{itemize}
@@ -88,12 +87,78 @@
         \item \textbf{day\_period\_index}: Classified into working and non-working days, to observe weekly patterns in bike usage.
     \end{itemize}
 
-    While the focus is not on text processing, storing text-based features like station names and user types enriches data visualisation, making it more accessible and interpretable. This approach, although not critical for data model training, enhances the user experience during data exploration.
-    \textbf{Importance of Accessibility:} \newline
+    While the focus is not on text processing, storing text-based features like station names and user types enriches data visualisation, making it more accessible and interpretable.
+    This approach, although not critical for data model training, enhances the user experience during data exploration.\newline
+    \newline\textbf{Importance of Accessibility:}\newline
     A dataset's value is significantly enhanced by its accessibility.
     By detailing and explaining the dataset's features, this report aims to ensure that the data is as useful and informative as possible for the intended analysis.
 
-    \begin{thebibliography}{99} % '99' here is a placeholder that adjusts based on the widest label
+    \section*{Method}
+    \label{sec:method}
+
+    \subsection{Data Acquisition}\label{subsec:data-acquisition}
+
+     The initial phase involves acquiring data from the source.
+    The initial phase involves acquiring data from the source.
+    By scraping the endpoint available, using a notebook environment to automate the process of scraping.
+    Then, downloading and unzipping, and storing the data files programmatically.
+    For the purposes of this proposal, the data is stored in a conventional file storage system and subsequently loaded as a CSV file.
+
+     \subsection{Data Preparation}\label{subsec:data-preparation}
+    \begin{itemize}
+        \item The subsequent step involves the pre-processing and cleaning of the dataset, which includes:
+        \begin{itemize}
+            \item Standardizing features by converting string data types to numeric where necessary.
+            \item Scaling the dataset to normalize features for model training, where applicable.
+            \item Addressing null values either by imputation or by dropping subsets of data. It depends on the significance of the feature in question.
+            \item Removing irrelevant features that do not contribute to the research questions at hand.
+        \end{itemize}
+    \end{itemize}
+
+    \subsection{Feature engineering}\label{subsec:feature-engineering}
+    \begin{itemize}
+        \item During the pre-processing. Add enrich the dataset by adding a categorical 'date' feature.
+        Segmenting trip times into periods (e.g., morning, afternoon, night). \newline This early inclusion is strategic.
+        To  support a supervised learning approach. Considering  computational expense and, by extension, operational expenses. Early in the analysis.
+    \end{itemize}
+    \subsection{Analytical Techniques}\label{subsec:analytical-techniques}
+%        \item \textbf{Exploratory Data Analysis (EDA)}
+%        \begin{itemize}
+%            \item During the EDA phase, the project will assess and visualize the clean data.
+%            \newline Using involve aggregation, counting, and summarizing key features.
+%            Employing various graphical representations such as graphs, tables, and heatmaps to identify strong correlations and patterns.
+%            \newline That will inform the training and refining the models.
+%        \end{itemize}
+
+    \section*{Predictive Models}\label{sec:predictive-models}
+%    \begin{itemize}
+%        \item Two predictive model approaches are proposed and will be evaluated. This can change as the project evolves.
+%        \begin{itemize}
+%            \item  A \textbf{classification or clustering model} to identify patterns and groupings within the data.
+%            \item A \textbf{time series forecasting or regression analysis model} to predict future trends based on historical data.
+%        \end{itemize}
+%        The project will explore both approaches. Comparing performance and best fit to the context of this Analysis.
+%        \item     \end{itemize}
+%    \item \textbf{Performance Review:}
+%    \begin{itemize}
+%        \item Review the performance of each predictive model.
+%        Through using a set of metrics appropriate to each model type.
+%        \newline This could include accuracy, precision, recall, and F1 score for classification models, or mean absolute error (MAE), mean squared error (MSE), and R-squared for regression models.
+%    \end{itemize}
+    \subsection{Clustering Analysis}\label{subsec:clustering-analysis}
+
+    \subsection{Classification Analysis}\label{subsec:classification-analysis}
+
+    \section*{Conclusion}
+    \subsection{Summary}\label{subsec:summary}
+        Pending Text
+    \subsection{Future Work}\label{subsec:future-work}
+        \begin{itemize}
+            \item \textbf{Geodict Coordinates} Incorporating geographic data to identify areas with high demand and low supply.
+            \item \textbf{Temporal Analysis:} Identifying peak hours and periods of high demand to inform redistribution strategies.
+            \item \textbf{Predictive Modelling:} Developing models to forecast demand and supply, enabling proactive redistribution.
+        \end{itemize}
+    \begin{thebibliography}{24}
 
         \bibitem{DivvyData}
         DivvyData, ``Bike ride-sharing data,'' 2023. [Online]. Available: \url{https://divvybikes.com/system-data}
