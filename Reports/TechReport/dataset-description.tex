@@ -1,0 +1,31 @@
+This dataset provides anonymised historic trip data from the Divvy bike-sharing service, detailing user travel patterns across various stations and times.
+It captures the dynamics of bike usage, offering insights into the frequency and distribution of trips.
+Our analysis primarily focuses on the start and end stations' IDs to identify which stations require re-stocking and to infer the most popular destinations.
+Additionally, correlating trip start and end times with station usage is essential for a comprehensive understanding.\newline
+
+The dataset includes the following key features:\newline
+
+\subsection{Dataset Features}\label{subsec:dataset-features}
+\begin{itemize}
+    \item \textbf{star\_ride\_id}: A unique identifier for each trip, ensuring individual trips can be tracked and analyzed discretely.
+    \item \textbf{star\_rideable\_type}: The type of bike used for the trip, which can influence usage patterns and availability needs.
+    \item \textbf{star\_started\_at}: The timestamp indicating when a trip started, crucial for understanding demand over time.
+    \item \textbf{star\_ended\_at}: The timestamp indicating when a trip ended, allowing for the calculation of trip duration and temporal patterns of bike usage.
+    \item \textbf{star\_start\_station\_name}: The name of the station where the trip originated, providing a geographic point for demand analysis.
+    \item \textbf{star\_start\_station\_id}: A unique identifier for the origin station, which can be used in conjunction with geographic data for mapping and spatial analysis.
+    \item \textbf{star\_end\_station\_name}: The name of the station where the trip concluded, indicating the destination demand in the network.
+    \item \textbf{star\_end\_station\_id}: A unique identifier for the destination station, useful for spatial analysis and redistribution strategies.
+    \item \textbf{star\_start\_lat \& start\_lng}: The latitude and longitude of the start station, giving precise location data for origin points.
+    \item \textbf{star\_end\_lat \& end\_lng}: The latitude and longitude of the end station, giving precise location data for destination points.
+    \item \textbf{star\_member\_casual}: A categorization of the user as a member or a casual rider, which can influence riding patterns and frequency of use.
+\end{itemize}
+
+\subsection{Added Features}\label{subsec:added-features}
+\begin{itemize}
+    \item \textbf{week\_day\_index}: Categorised into Morning, Afternoon, Evening, and Night, to analyse demand fluctuations.
+    \item \textbf{day\_period\_index}: Classified into working and non-working days, to observe weekly patterns in bike usage.
+\end{itemize}
+
+While the focus is not on text processing, storing text-based features like station names and user types enriches data visualisation, making it more accessible and interpretable.
+This approach, although not critical for data model training, enhances the user experience during data exploration. A dataset's value is significantly enhanced by its accessibility.
+By detailing and explaining the dataset's features, this report aims to ensure that the data is as useful and informative as possible for the intended analysis.

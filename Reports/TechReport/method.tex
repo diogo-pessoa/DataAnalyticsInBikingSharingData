@@ -1,0 +1,82 @@
+    \subsection{Data Acquisition}\label{subsec:data-acquisition}
+
+    The data acquisition process marks the foundational step of our analysis, entailing a systematic approach to sourcing data directly from the designated endpoint.
+    This task is accomplished through a combination of web scraping and automated data handling procedures, all orchestrated within a notebook environment to ensure efficiency and reproducibility.
+
+    The procedure initiates with an HTTP request to the relevant endpoint, targeting the acquisition of zip files that contain the dataset.
+    Upon successful download, these zip files are programmatically extracted to reveal the CSV files nested within.
+    This process not only streamlines the retrieval of valuable data but also prepares it for subsequent stages of analysis.
+
+    Following extraction, the CSV files are stored locally within a conventional file storage system.
+    This choice of storage facilitates easy access and manipulation in later phases of the project.
+    The final step in the data acquisition process involves loading the data into PySpark.
+    This transition is meticulously governed by a predefined YAML schema, ensuring that the dataset's structure aligns perfectly with our analytical framework.
+    By adhering to this schema, we guarantee the integrity and consistency of the data, laying a robust foundation for the comprehensive analysis that follows.
+
+    This methodical approach to data acquisition not only secures the necessary dataset for our investigation but also exemplifies a scalable and repeatable model for similar data-driven projects.
+    Through the integration of automated scraping, efficient data handling, and structured loading techniques, we establish a solid baseline from which to explore the intricacies of bike-sharing system optimization.
+    the source code is available at~\cite{TechProjectSourceCode}.
+
+    \subsection{Feature engineering}\label{subsec:feature-engineering}
+
+        The feature engineering phase of our analysis is pivotal for simplifying the dataset, enabling more nuanced exploration and enhancing the predictive model's performance.
+        By introducing categorical fields for the time of day and day of the week, we aim to dissect the data further, identifying usage patterns across different times and categorizing days into workdays and non-working days.
+        This categorization simplifies the analysis and lays the groundwork for more in-depth insights into trip frequencies and preferences, crucial for optimizing bike-sharing services.\newline
+        \textbf{Creating new Features:}\newline
+        \begin{itemize}
+            \item \textbf{Time of Day}:\newline We categorize each trip into one of four periods: Morning, Afternoon, Evening, and Night. This classification helps in analysing station popularity and bike usage trends at different times.
+            \item\textbf{Day of Week}:\newline Trips are classified into Workday or Non-Working Day categories, facilitating an understanding of how commuting patterns vary between weekdays and weekends.
+        \end{itemize}
+
+    \textbf{time of Day and Day of Week Categorization}\newline
+    \begin{itemize}
+        \item \textbf{Data Cleaning and Transformation}:\newline This step is essential for maintaining the integrity and accuracy of our findings. In preparation for sophisticated analyses, we rigorously clean the dataset by removing duplicates and null values.
+        \item \textbf{Rideable Type Categorization}:\newline We categorize `rideable\_type` into three groups: classic bike (0), docked bike (1), and electric bike (2).
+                        For the purpose of our predictive analysis—focusing on the demand for bikes at different times and locations—we opt to exclude the 'docked\_bike' category.
+                        This decision is based on its limited relevance to the study's objectives, streamlining the dataset for more targeted analysis.
+        \item \textbf{Leveraging PySpark and User-Defined Functions}:\newline To transform the \textbf{started\_at} timestamps into our categorical features, we leverage PySpark functions alongside user-defined functions. This approach allows us to efficiently generate new categorical columns from existing data.
+        \item \textbf{StringIndexer Conversion}:\newline Following the creation of categorical features, we employ PySpark's StringIndexer to convert these categories into numeric values. This conversion is crucial for incorporating these features into our predictive models, ensuring that the data is in a format that can be easily processed and analysed.
+
+      \end{itemize}
+
+    \subsection{Exploratory Data Analysis (EDA)}\label{subsec:analytical-techniques}
+%    \paragraph{Overview}
+%    The EDA phase is a critical component of the project, aimed at thoroughly examining the cleansed dataset to uncover underlying patterns, trends, and correlations.
+%    This step is foundational for informing subsequent model training and refinement processes.
+%
+%    \subparagraph{Strategies and Tools}
+%    \textbf{PySpark for Data Preparation}:\newline Initially, the dataset undergoes preparation and cleaning within the PySpark environment.
+%    This step is crucial for handling large volumes of data, leveraging PySpark's distributed computing capabilities to efficiently process and ready the data for analysis.
+%
+%    \textbf{Transition to Pandas for Analysis}:\newline Once the data is prepped, it's converted into a Pandas dataframe.
+%    This conversion is instrumental for the detailed analysis phase, where the rich functionalities of Pandas and its compatibility with visualization libraries come into play.
+%
+%    \subparagraph{Analytical Techniques}
+%    \textbf{Aggregation and Summarization}:\newline
+%    Key features of the dataset are aggregated and summarized to distill essential insights.
+%    This involves counting occurrences, calculating averages, and other statistical measures to better understand the dataset's characteristics.
+%
+%    \textbf{Visualization}:\newline A variety of graphical representations—ranging from basic graphs and tables to more complex heatmaps—are employed to visualize the data.
+%    These visual aids are invaluable for identifying patterns, detecting anomalies, and understanding the relationships between different dataset features.
+%
+%    Graphs and tables offer a straightforward means of presenting quantitative information, making it easier to grasp the distribution and variation within key variables.
+%    Heatmaps are particularly useful for revealing correlations and patterns across multiple variables, providing a visual summary of complex relationships in a clear and concise manner.
+%    \section*{Predictive Models}\label{sec:predictive-models}
+%    \begin{itemize}
+%        \item Two predictive model approaches are proposed and will be evaluated. This can change as the project evolves.
+%        \begin{itemize}
+%            \item  A \textbf{classification or clustering model} to identify patterns and groupings within the data.
+%            \item A \textbf{time series forecasting or regression analysis model} to predict future trends based on historical data.
+%        \end{itemize}
+%        The project will explore both approaches. Comparing performance and best fit to the context of this Analysis.
+%        \item     \end{itemize}
+%    \item \textbf{Performance Review:}
+%    \begin{itemize}
+%        \item Review the performance of each predictive model.
+%        Through using a set of metrics appropriate to each model type.
+%        \newline This could include accuracy, precision, recall, and F1 score for classification models, or mean absolute error (MAE), mean squared error (MSE), and R-squared for regression models.
+%    \end{itemize}
+
+    \subsection{Clustering Analysis}\label{subsec:clustering-analysis}
+
+    \subsection{Classification Analysis}\label{subsec:classification-analysis}
