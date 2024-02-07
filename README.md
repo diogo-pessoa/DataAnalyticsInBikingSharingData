@@ -38,7 +38,7 @@ All notebooks cross-reference each other, accordingly to the flow of the analysi
           sampled_df_with_added_features_indexed.toPandas()
           ``
       * The notebook is intended to be used to understand the data, visualize findings and patterns.
-    * [regression_model.ipynb](notebooks/regression_model.ipynb)
+    * [regression_model.ipynb](notebooks/classification_model.ipynb)
       * Depends on `%run 'notebooks/feature_engineering.ipynb'` 
       * The notebook focus on training a regression model using PySpark. The model is trained using the `sampled_df_with_added_features_indexed` DataFrame.
       * I've also split the training in to contexts, working days and non-working days. I've decided for the split, due to performance issues. The model was taking too long to train(local laptop).
