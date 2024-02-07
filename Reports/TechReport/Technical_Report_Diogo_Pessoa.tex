@@ -118,25 +118,18 @@
     \subsection{Feature engineering}\label{subsec:feature-engineering}
     The feature engineering phase of our analysis is pivotal for simplifying the dataset, enabling more nuanced exploration and enhancing the predictive model's performance.
     By introducing categorical fields for the time of day and day of the week, we aim to dissect the data further, identifying usage patterns across different times and categorizing days into workdays and non-working days.
-    This categorization simplifies the analysis and lays the groundwork for more in-depth insights into trip frequencies and preferences, crucial for optimizing bike-sharing services.
-%
-%    \begin{itemize}
-%        \item \textbf{Added Features}\newline
-%        \item \textbf{time of Day and Day of Week Categorization}
-%        \item \begin{itemize}
-%                  \item - \textbf{Time of Day}: We categorize each trip into one of four periods: Morning, Afternoon, Evening, and Night.
-%                  This classification helps in analysing station popularity and bike usage trends at different times.
-%                  \item \textbf{Day of Week}: Trips are classified into Workday or Non-Working Day categories, facilitating an understanding of how commuting patterns vary between weekdays and weekends.
-%        \end{itemize}
-%        \item \textbf{Data Cleaning and Transformation}
-%        \item In preparation for sophisticated analyses, we rigorously clean the dataset by removing duplicates and null values.
-%        This step is essential for maintaining the integrity and accuracy of our findings.
-%        \item \textbf{Rideable Type Categorization}
-%        \item \item \begin{itemize}
-%                        \item We categorize `rideable_type` into three groups: classic bike (0), docked bike (1), and electric bike (2).
-%                        For the purpose of our predictive analysis—focusing on the demand for bikes at different times and locations—we opt to exclude the 'docked_bike' category.
-%                        This decision is based on its limited relevance to the study's objectives, streamlining the dataset for more targeted analysis.
-%                        \end{itemize}
+    This categorization simplifies the analysis and lays the groundwork for more in-depth insights into trip frequencies and preferences, crucial for optimizing bike-sharing services.\newline
+    \textbf{Added Features:}\newline
+    \textbf{Time of Day}:\newline We categorize each trip into one of four periods: Morning, Afternoon, Evening, and Night. This classification helps in analysing station popularity and bike usage trends at different times.\newline
+    \textbf{Day of Week}:\newline Trips are classified into Workday or Non-Working Day categories, facilitating an understanding of how commuting patterns vary between weekdays and weekends.\newline
+
+    \textbf{time of Day and Day of Week Categorization}\newline
+    \begin{itemize}
+        \item \textbf{Data Cleaning and Transformation}:\newline This step is essential for maintaining the integrity and accuracy of our findings. In preparation for sophisticated analyses, we rigorously clean the dataset by removing duplicates and null values.
+        \item \textbf{Rideable Type Categorization}:\newline We categorize `rideable\_type` into three groups: classic bike (0), docked bike (1), and electric bike (2).
+                        For the purpose of our predictive analysis—focusing on the demand for bikes at different times and locations—we opt to exclude the 'docked\_bike' category.
+                        This decision is based on its limited relevance to the study's objectives, streamlining the dataset for more targeted analysis.
+
 %        \item \textbf{Leveraging PySpark and User-Defined Functions}
 %        \item \begin{itemize}
 %                  \itemTo transform the \textbf{started_at} timestamps into our categorical features, we leverage PySpark functions alongside user-defined functions.
@@ -147,7 +140,7 @@
 %                \item Following the creation of categorical features, we employ PySpark's StringIndexer to convert these categories into numeric values.
 %                This conversion is crucial for incorporating these features into our predictive models, ensuring that the data is in a format that can be easily processed and analysed.
 %          \end{itemize}
-%    \end{itemize}
+    \end{itemize}
 
     \subsection{Exploratory Data Analysis (EDA)}\label{subsec:analytical-techniques}
 %    \paragraph{Overview}
