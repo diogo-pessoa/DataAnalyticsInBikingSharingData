@@ -15,6 +15,9 @@ back to feature engineering to improve performance.
 
 The project tested on `Google Collab Entrerpise`.
 
+To see a full run of the Whole project, please refer to the notebook [supervisor_bikeshare](notebooks/supervisor_bikeshare.ipynb). 
+This notebook calls all other notebooks in the correct order, and loads the images. 
+
 ### Notebooks description
 
 This project have multiple notebooks, each with a specific scope. The idea is to simplify the analysis and make it easier to follow.
