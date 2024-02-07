@@ -98,39 +98,80 @@
 
     \subsection{Data Acquisition}\label{subsec:data-acquisition}
 
-     The initial phase involves acquiring data from the source.
-    The initial phase involves acquiring data from the source.
-    By scraping the endpoint available, using a notebook environment to automate the process of scraping.
-    Then, downloading and unzipping, and storing the data files programmatically.
-    For the purposes of this proposal, the data is stored in a conventional file storage system and subsequently loaded as a CSV file.
+    The data acquisition process marks the foundational step of our analysis, entailing a systematic approach to sourcing data directly from the designated endpoint.
+    This task is accomplished through a combination of web scraping and automated data handling procedures, all orchestrated within a notebook environment to ensure efficiency and reproducibility.
 
-     \subsection{Data Preparation}\label{subsec:data-preparation}
-    \begin{itemize}
-        \item The subsequent step involves the pre-processing and cleaning of the dataset, which includes:
-        \begin{itemize}
-            \item Standardizing features by converting string data types to numeric where necessary.
-            \item Scaling the dataset to normalize features for model training, where applicable.
-            \item Addressing null values either by imputation or by dropping subsets of data. It depends on the significance of the feature in question.
-            \item Removing irrelevant features that do not contribute to the research questions at hand.
-        \end{itemize}
-    \end{itemize}
+    The procedure initiates with an HTTP request to the relevant endpoint, targeting the acquisition of zip files that contain the dataset.
+    Upon successful download, these zip files are programmatically extracted to reveal the CSV files nested within.
+    This process not only streamlines the retrieval of valuable data but also prepares it for subsequent stages of analysis.
+
+    Following extraction, the CSV files are stored locally within a conventional file storage system.
+    This choice of storage facilitates easy access and manipulation in later phases of the project.
+    The final step in the data acquisition process involves loading the data into PySpark.
+    This transition is meticulously governed by a predefined YAML schema, ensuring that the dataset's structure aligns perfectly with our analytical framework.
+    By adhering to this schema, we guarantee the integrity and consistency of the data, laying a robust foundation for the comprehensive analysis that follows.
+
+    This methodical approach to data acquisition not only secures the necessary dataset for our investigation but also exemplifies a scalable and repeatable model for similar data-driven projects.
+    Through the integration of automated scraping, efficient data handling, and structured loading techniques, we establish a solid baseline from which to explore the intricacies of bike-sharing system optimization.
+    the source code is available at~\cite{TechProjectSourceCode}.
 
     \subsection{Feature engineering}\label{subsec:feature-engineering}
-    \begin{itemize}
-        \item During the pre-processing. Add enrich the dataset by adding a categorical 'date' feature.
-        Segmenting trip times into periods (e.g., morning, afternoon, night). \newline This early inclusion is strategic.
-        To  support a supervised learning approach. Considering  computational expense and, by extension, operational expenses. Early in the analysis.
-    \end{itemize}
-    \subsection{Analytical Techniques}\label{subsec:analytical-techniques}
-%        \item \textbf{Exploratory Data Analysis (EDA)}
-%        \begin{itemize}
-%            \item During the EDA phase, the project will assess and visualize the clean data.
-%            \newline Using involve aggregation, counting, and summarizing key features.
-%            Employing various graphical representations such as graphs, tables, and heatmaps to identify strong correlations and patterns.
-%            \newline That will inform the training and refining the models.
+    The feature engineering phase of our analysis is pivotal for simplifying the dataset, enabling more nuanced exploration and enhancing the predictive model's performance.
+    By introducing categorical fields for the time of day and day of the week, we aim to dissect the data further, identifying usage patterns across different times and categorizing days into workdays and non-working days.
+    This categorization simplifies the analysis and lays the groundwork for more in-depth insights into trip frequencies and preferences, crucial for optimizing bike-sharing services.
+%
+%    \begin{itemize}
+%        \item \textbf{Added Features}\newline
+%        \item \textbf{time of Day and Day of Week Categorization}
+%        \item \begin{itemize}
+%                  \item - \textbf{Time of Day}: We categorize each trip into one of four periods: Morning, Afternoon, Evening, and Night.
+%                  This classification helps in analysing station popularity and bike usage trends at different times.
+%                  \item \textbf{Day of Week}: Trips are classified into Workday or Non-Working Day categories, facilitating an understanding of how commuting patterns vary between weekdays and weekends.
 %        \end{itemize}
+%        \item \textbf{Data Cleaning and Transformation}
+%        \item In preparation for sophisticated analyses, we rigorously clean the dataset by removing duplicates and null values.
+%        This step is essential for maintaining the integrity and accuracy of our findings.
+%        \item \textbf{Rideable Type Categorization}
+%        \item \item \begin{itemize}
+%                        \item We categorize `rideable_type` into three groups: classic bike (0), docked bike (1), and electric bike (2).
+%                        For the purpose of our predictive analysis—focusing on the demand for bikes at different times and locations—we opt to exclude the 'docked_bike' category.
+%                        This decision is based on its limited relevance to the study's objectives, streamlining the dataset for more targeted analysis.
+%                        \end{itemize}
+%        \item \textbf{Leveraging PySpark and User-Defined Functions}
+%        \item \begin{itemize}
+%                  \itemTo transform the \textbf{started_at} timestamps into our categorical features, we leverage PySpark functions alongside user-defined functions.
+%                  This approach allows us to efficiently generate new categorical columns from existing data.
+%        \end{itemize}
+%        \item \textbf{StringIndexer Conversion}
+%            \item \begin{itemize}
+%                \item Following the creation of categorical features, we employ PySpark's StringIndexer to convert these categories into numeric values.
+%                This conversion is crucial for incorporating these features into our predictive models, ensuring that the data is in a format that can be easily processed and analysed.
+%          \end{itemize}
+%    \end{itemize}
 
-    \section*{Predictive Models}\label{sec:predictive-models}
+    \subsection{Exploratory Data Analysis (EDA)}\label{subsec:analytical-techniques}
+%    \paragraph{Overview}
+%    The EDA phase is a critical component of the project, aimed at thoroughly examining the cleansed dataset to uncover underlying patterns, trends, and correlations.
+%    This step is foundational for informing subsequent model training and refinement processes.
+%
+%    \subparagraph{Strategies and Tools}
+%    \textbf{PySpark for Data Preparation}:\newline Initially, the dataset undergoes preparation and cleaning within the PySpark environment.
+%    This step is crucial for handling large volumes of data, leveraging PySpark's distributed computing capabilities to efficiently process and ready the data for analysis.
+%
+%    \textbf{Transition to Pandas for Analysis}:\newline Once the data is prepped, it's converted into a Pandas dataframe.
+%    This conversion is instrumental for the detailed analysis phase, where the rich functionalities of Pandas and its compatibility with visualization libraries come into play.
+%
+%    \subparagraph{Analytical Techniques}
+%    \textbf{Aggregation and Summarization}:\newline
+%    Key features of the dataset are aggregated and summarized to distill essential insights.
+%    This involves counting occurrences, calculating averages, and other statistical measures to better understand the dataset's characteristics.
+%
+%    \textbf{Visualization}:\newline A variety of graphical representations—ranging from basic graphs and tables to more complex heatmaps—are employed to visualize the data.
+%    These visual aids are invaluable for identifying patterns, detecting anomalies, and understanding the relationships between different dataset features.
+%
+%    Graphs and tables offer a straightforward means of presenting quantitative information, making it easier to grasp the distribution and variation within key variables.
+%    Heatmaps are particularly useful for revealing correlations and patterns across multiple variables, providing a visual summary of complex relationships in a clear and concise manner.
+%    \section*{Predictive Models}\label{sec:predictive-models}
 %    \begin{itemize}
 %        \item Two predictive model approaches are proposed and will be evaluated. This can change as the project evolves.
 %        \begin{itemize}
@@ -145,35 +186,59 @@
 %        Through using a set of metrics appropriate to each model type.
 %        \newline This could include accuracy, precision, recall, and F1 score for classification models, or mean absolute error (MAE), mean squared error (MSE), and R-squared for regression models.
 %    \end{itemize}
+
     \subsection{Clustering Analysis}\label{subsec:clustering-analysis}
 
     \subsection{Classification Analysis}\label{subsec:classification-analysis}
 
     \section*{Conclusion}
+
     \subsection{Summary}\label{subsec:summary}
-        Pending Text
+    Pending Text
+
     \subsection{Future Work}\label{subsec:future-work}
-        \begin{itemize}
-            \item \textbf{Geodict Coordinates} Incorporating geographic data to identify areas with high demand and low supply.
-            \item \textbf{Temporal Analysis:} Identifying peak hours and periods of high demand to inform redistribution strategies.
-            \item \textbf{Predictive Modelling:} Developing models to forecast demand and supply, enabling proactive redistribution.
-        \end{itemize}
+    \begin{itemize}
+        \item \textbf{Geodict Coordinates} Incorporating geographic data to identify areas with high demand and low supply.
+        \item \textbf{Temporal Analysis:} Identifying peak hours and periods of high demand to inform redistribution strategies.
+        \item \textbf{Predictive Modelling:} Developing models to forecast demand and supply, enabling proactive redistribution.
+    \end{itemize}
     \begin{thebibliography}{24}
 
+        \bibitem{TechProjectSourceCode}
+        D. Pessoa, ``TechProject1: Source Code for Bike Sharing System Analysis,'' 2024.
+        [Online].
+        Available: \url{https://github.com/diogo-pessoa/TechProject1}.
+        [Accessed: 07-02-2024].
+
         \bibitem{DivvyData}
-        DivvyData, ``Bike ride-sharing data,'' 2023. [Online]. Available: \url{https://divvybikes.com/system-data}
+        DivvyData, ``Bike ride-sharing data,'' 2023.
+        [Online].
+        Available: \url{https://divvybikes.com/system-data}
 
         \bibitem{DataSource}
-        DivvyData Dataset, ``Index file for historic data,'' 2023. [Online]. Available: \url{https://divvy-tripdata.s3.amazonaws.com/index.html}
+        DivvyData Dataset, ``Index file for historic data,'' 2023.
+        [Online].
+        Available: \url{https://divvy-tripdata.s3.amazonaws.com/index.html}
 
         \bibitem{2016}
-        J. Zhang, X. Pan, M. Li, and P. S. Yu, ``Bicycle-Sharing System Analysis and Trip Prediction,'' in \textit{2016 17th IEEE International Conference on Mobile Data Management (MDM)}, vol. 1, pp. 174-179, 2016. DOI: \href{https://doi.org/10.1109/MDM.2016.35}{10.1109/MDM.2016.35}
+        J. Zhang, X. Pan, M. Li, and P. S. Yu, ``Bicycle-Sharing System Analysis and Trip Prediction,'' in \textit{2016 17th IEEE International Conference on Mobile Data Management (MDM)}, vol.
+        1, pp.
+        174-179, 2016.
+        DOI: \href{https://doi.org/10.1109/MDM.2016.35}{10.1109/MDM.2016.35}
 
         \bibitem{2015}
-        Y. Li, Y. Zheng, H. Zhang, and L. Chen, ``Traffic prediction in a bike-sharing system,'' \textit{Proceedings of the 23rd SIGSPATIAL International Conference on Advances in Geographic Information Systems}, SIGSPATIAL '15, New York, NY, USA: Association for Computing Machinery, 2015, Art. no. 33. DOI: \href{https://doi.org/10.1145/2820783.2820837}{10.1145/2820783.2820837}
+        Y. Li, Y. Zheng, H. Zhang, and L. Chen, ``Traffic prediction in a bike-sharing system,'' \textit{Proceedings of the 23rd SIGSPATIAL International Conference on Advances in Geographic Information Systems}, SIGSPATIAL '15, New York, NY, USA: Association for Computing Machinery, 2015, Art.
+        no.
+        33.
+        DOI: \href{https://doi.org/10.1145/2820783.2820837}{10.1145/2820783.2820837}
 
         \bibitem{s18020512}
-        F. Chiariotti, C. Pielli, A. Zanella, and M. Zorzi, ``A Dynamic Approach to Rebalancing Bike-Sharing Systems,'' \textit{Sensors}, vol. 18, no. 2, Art. no. 512, 2018. DOI: \href{https://www.mdpi.com/1424-8220/18/2/512}{10.3390/s18020512}
+        F. Chiariotti, C. Pielli, A. Zanella, and M. Zorzi, ``A Dynamic Approach to Rebalancing Bike-Sharing Systems,'' \textit{Sensors}, vol.
+        18, no.
+                2, Art.
+                no.
+                512, 2018.
+                DOI: \href{https://www.mdpi.com/1424-8220/18/2/512}{10.3390/s18020512}
 
     \end{thebibliography}
 \end{document}
