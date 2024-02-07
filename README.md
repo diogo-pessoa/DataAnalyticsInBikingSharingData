@@ -13,9 +13,7 @@ The goal is to make the project usable locally by loading a sample of the datase
 simplicity of the analysis. Then, use pySpark and synapse to train a model and make predictions. review performance, go
 back to feature engineering to improve performance.
 
-When the model is ready, the project will be deployed to `<pending decision, over databricks or Collab>`. When that's
-done we'll run the model against the full dataset.
-
+The project tested on `Google Collab Entrerpise`.
 
 ### Notebooks description
 
@@ -45,10 +43,6 @@ All notebooks cross-reference each other, accordingly to the flow of the analysi
       * The notebook focus on training a regression model using PySpark. The model is trained using the `sampled_df_with_added_features_indexed` DataFrame.
       * I've also split the training in to contexts, working days and non-working days. I've decided for the split, due to performance issues. The model was taking too long to train(local laptop).
       * The model is trained using the `sampled_df_with_added_features_indexed` DataFrame.
-    * [PCA_analysis.ipynb](notebooks/pca_analysis.ipynb)
-      * Depends on `%run 'notebooks/feature_engineering.ipynb'`
-      * The notebook reviews the viability of reducing the dimensionality of the dataset.
-      * Review Variance, look for outliers, and possible clusters.
     * [sillhouette_index_scores.ipynb](notebooks/sillhouette_score.ipynb)
       * Depends on `%run 'notebooks/feature_engineering.ipynb'`
       * The notebook focus on the Silhouette analysis of the dataset. The goal is to find the optimal number of clusters for the dataset.
