@@ -22,7 +22,7 @@ bech32==1.2.0
 bleach==6.1.0
 cachetools==5.3.2
 cattrs==23.2.3
-cbor2==5.5.1
+cbor2==5.6.2
 certifi==2024.2.2
 cffi==1.16.0
 charset-normalizer==3.3.2
