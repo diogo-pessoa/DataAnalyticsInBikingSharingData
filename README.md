@@ -1,6 +1,9 @@
 TechProject1
 ------------
 
+[![Pylint](https://github.com/diogo-pessoa/TechProject1/actions/workflows/pylint.yml/badge.svg)](https://github.com/diogo-pessoa/TechProject1/actions/workflows/pylint.yml)
+
+
 ### Introduction
 
 This is a project for the course "Big Data Analytics" at the Atlantic Technological University Donegal.
