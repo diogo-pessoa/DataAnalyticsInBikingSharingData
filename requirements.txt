@@ -20,7 +20,7 @@ charset-normalizer==3.3.2
 click==8.1.7
 comm==0.2.2
 contourpy==1.2.1
-cryptography==43.0.1
+cryptography==44.0.1
 cycler==0.12.1
 cyclonedx-python-lib==7.5.0
 debugpy==1.8.2
